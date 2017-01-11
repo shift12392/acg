@@ -3,10 +3,36 @@
 #include "../acg/stdafx.h"
 #define ACG_EXPORT                      //在这定义ACG_EXPORT
 #include "../acg/base/acgException.h"
+#include "../acg/base/acg_UniqueThreadId.h"
 #include "../acg/base/acg_DbgOut.h"
-#include <assert.h>
 
 
+void ACG_SEH_Handle(unsigned int code, struct _EXCEPTION_POINTERS *ep)
+{//注意下面的异常抛出方式，这样保证所有的异常在栈上并且是自动对象
+	throw acg::base::CACGException(code, ep);
+}
+
+#ifdef DEBUG
+namespace
+{
+	DWORD g_dwTlsID = TLS_OUT_OF_INDEXES;
+	LONG  g_nUniqueThreadId = 0;           //用于标识全局唯一的线程id
+}
+namespace acg
+{
+	namespace base
+	{
+		namespace CurThread
+		{
+			LONG GetCurUniqueThreadId()
+			{
+				return *(LONG*)(TlsGetValue(g_dwTlsID));
+			}
+		}
+	}
+}
+
+#endif // DEBUG
 
 
 
@@ -16,12 +42,26 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	{
 	case DLL_PROCESS_ATTACH:
 	{
-
-		assert(false);
-
 		//为主线程安装结构化异常的C++拦截器
-		_set_se_translator(acg::base::ACG_SEH_Handle);
+		_set_se_translator(ACG_SEH_Handle);
 #ifdef DEBUG
+
+		//给主线程设置用于标识全局唯一的线程id
+		UINT *gt_pNUniqueThreadId = new UINT;
+		*gt_pNUniqueThreadId = g_nUniqueThreadId;
+
+		g_dwTlsID = TlsAlloc();
+		if (g_dwTlsID != TLS_OUT_OF_INDEXES)
+		{
+			ACG_ASSERT(TlsSetValue(g_dwTlsID, gt_pNUniqueThreadId));
+		}
+		else
+		{
+			ACG_ASSERT(FALSE);
+		}
+
+
+		//调试输出
 		TCHAR pModuleName[MAX_PATH] = {};
 		GetModuleFileName(hModule, pModuleName, MAX_PATH);
 		ACG_DBGOUTW(_T("模块(%s)已为进程[%u]的主线程[0x%x]设置C++方式拦截结构化异常处理,\
@@ -33,8 +73,16 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	case DLL_THREAD_ATTACH:
 	{
 		//为其它线程安装结构化异常的C++拦截器
-		_set_se_translator(acg::base::ACG_SEH_Handle);
+		_set_se_translator(ACG_SEH_Handle);
 #ifdef DEBUG
+
+		//给新线程设置用于标识全局唯一的线程id
+		InterlockedIncrement(&g_nUniqueThreadId);     //++
+		UINT *gt_pNUniqueThreadId = new UINT;
+		*gt_pNUniqueThreadId = g_nUniqueThreadId;
+		TlsSetValue(g_dwTlsID, gt_pNUniqueThreadId);
+
+		//调试输出
 		TCHAR pModuleName[MAX_PATH] = {};
 		GetModuleFileName(hModule, pModuleName, MAX_PATH);
 		ACG_DBGOUTW(_T("模块(%s)已为进程[%u]的线程[0x%x]设置C++方式拦截结构化异常处理,\
@@ -45,10 +93,14 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	break;
 	case DLL_THREAD_DETACH:
 	{
+		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
+			TlsFree(g_dwTlsID);
 	}
 	break;
 	case DLL_PROCESS_DETACH:
 	{
+		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
+			TlsFree(g_dwTlsID);
 	}
 	break;
 	}

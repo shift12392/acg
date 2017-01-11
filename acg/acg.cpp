@@ -10,8 +10,8 @@ int main()
 {
 	try
 	{
-		
-		/*acg::base::CACGException e(GetLastError());*/
+
+		acg::base::CACGException e(GetLastError());
 		//std::cout << e.GetErrCode() << std::endl;
 
 		int b = 0;

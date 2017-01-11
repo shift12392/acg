@@ -29,5 +29,8 @@
     <ClInclude Include="..\acg\base\acgException.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\acg\base\acg_UniqueThreadId.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

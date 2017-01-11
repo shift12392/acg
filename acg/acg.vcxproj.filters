@@ -45,6 +45,12 @@
     <ClInclude Include="base\acg_mem.h">
       <Filter>base</Filter>
     </ClInclude>
+    <ClInclude Include="base\acgThread.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgCurThread.h">
+      <Filter>base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -52,6 +58,9 @@
     </ClCompile>
     <ClCompile Include="acg.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgThread.cpp">
+      <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

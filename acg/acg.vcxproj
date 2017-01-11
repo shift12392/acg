@@ -150,7 +150,9 @@
   <ItemGroup>
     <ClInclude Include="acg_def.h" />
     <ClInclude Include="acg_switch.h" />
+    <ClInclude Include="base\acgCurThread.h" />
     <ClInclude Include="base\acgNoCopyable.h" />
+    <ClInclude Include="base\acgThread.h" />
     <ClInclude Include="base\acg_DbgOut.h" />
     <ClInclude Include="base\acg_dll.h" />
     <ClInclude Include="base\acg_mem.h" />
@@ -159,6 +161,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acg.cpp" />
+    <ClCompile Include="base\acgThread.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -20,9 +20,6 @@ namespace acg
 	{
 
 		namespace { const int g_ErrBuf_MaxLen = 4096; }
-
-
-		
 		class ACG_DLL CACGException
 		{
 			enum EM_ACG_EXCEPTION
@@ -83,13 +80,6 @@ namespace acg
 			//工具方法
 			LPTSTR GetErrorString(DWORD dwErrorCode);
 		};
-
-
-		ACG_INLINE void ACG_SEH_Handle(unsigned int code, struct _EXCEPTION_POINTERS *ep)
-		{//注意下面的异常抛出方式，这样保证所有的异常在栈上并且是自动对象
-			throw CACGException(code, ep);
-		}
-
 	}
 }
 
