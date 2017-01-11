@@ -20,7 +20,7 @@ namespace acg
 	{
 
 		namespace { const int g_ErrBuf_MaxLen = 4096; }
-		class ACG_DLL CACGException
+		class ACG_DLL CACGException 
 		{
 			enum EM_ACG_EXCEPTION
 			{//异常的具体种类的枚举值，用于具体区分详细的异常信息

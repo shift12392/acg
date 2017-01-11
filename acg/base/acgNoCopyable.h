@@ -11,7 +11,7 @@ namespace acg
 {
 	namespace base
 	{
-		class CACGNoCopyable
+		class ACG_DLL CACGNoCopyable
 		{
 		protected:
 			CACGNoCopyable() {}

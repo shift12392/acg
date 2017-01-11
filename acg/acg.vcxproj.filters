@@ -51,6 +51,15 @@
     <ClInclude Include="base\acgCurThread.h">
       <Filter>base</Filter>
     </ClInclude>
+    <ClInclude Include="base\acgMutexLock.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgCondition.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgCountDownLatch.h">
+      <Filter>base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -60,6 +69,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="base\acgThread.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgMutexLock.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgCondition.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgCountDownLatch.cpp">
       <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>

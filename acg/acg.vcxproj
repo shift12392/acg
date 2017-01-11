@@ -150,7 +150,10 @@
   <ItemGroup>
     <ClInclude Include="acg_def.h" />
     <ClInclude Include="acg_switch.h" />
+    <ClInclude Include="base\acgCondition.h" />
+    <ClInclude Include="base\acgCountDownLatch.h" />
     <ClInclude Include="base\acgCurThread.h" />
+    <ClInclude Include="base\acgMutexLock.h" />
     <ClInclude Include="base\acgNoCopyable.h" />
     <ClInclude Include="base\acgThread.h" />
     <ClInclude Include="base\acg_DbgOut.h" />
@@ -161,8 +164,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acg.cpp" />
+    <ClCompile Include="base\acgCondition.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="base\acgCountDownLatch.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="base\acgMutexLock.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="base\acgThread.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../stdafx.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

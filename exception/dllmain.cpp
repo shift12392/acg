@@ -93,14 +93,18 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	break;
 	case DLL_THREAD_DETACH:
 	{
+#ifdef DEBUG
 		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
 			TlsFree(g_dwTlsID);
+#endif
 	}
 	break;
 	case DLL_PROCESS_DETACH:
 	{
+#ifdef DEBUG
 		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
 			TlsFree(g_dwTlsID);
+#endif
 	}
 	break;
 	}
