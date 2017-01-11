@@ -13,45 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="base">
-      <UniqueIdentifier>{64a85149-ecdd-41f8-82fc-922b89d498d5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="acg_switch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="acg_def.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_DbgOut.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_dll.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgNoCopyable.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_mem.h">
-      <Filter>base</Filter>
-    </ClInclude>
+    <ClCompile Include="..\acg\base\acgException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="acg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
+    <ClInclude Include="..\acg\base\acgException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
