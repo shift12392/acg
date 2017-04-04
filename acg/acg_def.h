@@ -49,7 +49,7 @@
 #endif
 
 //检查安全字符串函数返回值，如果失败，则杀死进程
-#define ACG_CHECK_STR(ret) if(S_OK!=(ret)) ExitProcess(0);
+#define ACG_CHECK_STR(ret) if(S_OK!=(ret)) exit(0);
 
 //安全delete
 #ifndef ACG_SAFEDEL

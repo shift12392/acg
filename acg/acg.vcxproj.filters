@@ -60,6 +60,27 @@
     <ClInclude Include="base\acgCountDownLatch.h">
       <Filter>base</Filter>
     </ClInclude>
+    <ClInclude Include="base\acgAtomic.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgCopyable.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgTimestamp.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgTypes.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgStringPiece.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgLogStream.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="base\acgLoging.h">
+      <Filter>base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,6 +99,18 @@
       <Filter>base</Filter>
     </ClCompile>
     <ClCompile Include="base\acgCountDownLatch.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgAtomic.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgTimestamp.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgLogStream.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="base\acgLoging.cpp">
       <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,9 +11,7 @@ namespace acg
 	{
 		namespace CurThread
 		{
-#ifdef DEBUG
 			ACG_DLL  LONG GetCurUniqueThreadId();
-#endif // DEBUG
 		}
 
 	}

@@ -7,6 +7,9 @@
 #include "../acg/base/acg_DbgOut.h"
 
 
+//注：dll延迟加载问题怎么解决
+
+
 void ACG_SEH_Handle(unsigned int code, struct _EXCEPTION_POINTERS *ep)
 {//注意下面的异常抛出方式，这样保证所有的异常在栈上并且是自动对象
 	throw acg::base::CACGException(code, ep);
@@ -47,7 +50,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 #ifdef DEBUG
 
 		//给主线程设置用于标识全局唯一的线程id
-		UINT *gt_pNUniqueThreadId = new UINT;
+		LONG *gt_pNUniqueThreadId = new LONG;
 		*gt_pNUniqueThreadId = g_nUniqueThreadId;
 
 		g_dwTlsID = TlsAlloc();
@@ -78,7 +81,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 
 		//给新线程设置用于标识全局唯一的线程id
 		InterlockedIncrement(&g_nUniqueThreadId);     //++
-		UINT *gt_pNUniqueThreadId = new UINT;
+		LONG *gt_pNUniqueThreadId = new LONG;
 		*gt_pNUniqueThreadId = g_nUniqueThreadId;
 		TlsSetValue(g_dwTlsID, gt_pNUniqueThreadId);
 

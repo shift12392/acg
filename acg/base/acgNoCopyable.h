@@ -5,13 +5,12 @@
 
 
 #pragma once
-#include "acg_dll.h"
 
 namespace acg
 {
 	namespace base
 	{
-		class ACG_DLL CACGNoCopyable
+		class CACGNoCopyable
 		{
 		protected:
 			CACGNoCopyable() {}

@@ -5,8 +5,6 @@
 #include "acgException.h"
 #include "acg_mem.h"
 
-int a = 1000;
-
 namespace acg
 {
 	namespace base

@@ -5,13 +5,12 @@
 #include "acg_UniqueThreadId.h"
 #include "acg_DbgOut.h"
 #include "acgNoCopyable.h"
-#include "acg_dll.h"
 
 namespace acg
 {
 	namespace base
 	{
-		class ACG_DLL CACGMutexLock :public CACGNoCopyable 
+		class  CACGMutexLock :public CACGNoCopyable 
 		{
 		public:
 #ifdef DEBUG

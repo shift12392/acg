@@ -7,7 +7,6 @@
 #define ACG_DBGOUT_BUF_LEN 2048
 
 
-//断言定义（从ACG_Def.h文件移至这里）
 #ifdef _DEBUG
 #define ACG_ASSERT(s) if(!(s)) {::DebugBreak();}
 #else
