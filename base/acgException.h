@@ -8,7 +8,7 @@
 #ifndef ACG_BASE_ACGEXCEPTION_H
 #define ACG_BASE_ACGEXCEPTION_H
 
-
+#include "acg_base_lib.h"
 #include <eh.h>
 #include "acg_dll.h"
 
@@ -38,7 +38,7 @@ namespace acg
 
 			DWORD m_dwLastError;            //¥ÌŒÛ¥˙¬Î
 
-			LPTSTR m_lpErrMsg;              //¥ÌŒÛ√Ë ˆ
+			LPWSTR m_lpErrMsg;              //¥ÌŒÛ√Ë ˆ
 
 		public:
 			CACGException() :m_nSEHCode(0), m_EP(NULL), m_dwLastError(0), m_lpErrMsg(0), m_EType(ET_Empty) {}
@@ -48,7 +48,7 @@ namespace acg
 			CACGException(LPCTSTR pszFmt, ...);
 
 		public:
-			LPCTSTR GetReason() const
+			LPCWSTR GetReason() const
 			{
 				return m_lpErrMsg;
 			}
@@ -60,7 +60,7 @@ namespace acg
 			{
 				return m_EType;
 			}
-			LPCTSTR GetTypeString()
+			LPCWSTR GetTypeString()
 			{
 				static LPTSTR pszTypeString[] = {
 					_T("Empty"),
@@ -78,7 +78,7 @@ namespace acg
 			}
 		public:
 			//π§æﬂ∑Ω∑®
-			LPTSTR GetErrorString(DWORD dwErrorCode);
+			LPWSTR GetErrorString(DWORD dwErrorCode);
 		};
 	}
 }

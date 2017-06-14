@@ -1,10 +1,10 @@
 
 
-#include "../acg/stdafx.h"
+#include "../base/acg_base_lib.h"
 #define ACG_EXPORT                      //在这定义ACG_EXPORT
-#include "../acg/base/acgException.h"
-#include "../acg/base/acg_UniqueThreadId.h"
-#include "../acg/base/acg_DbgOut.h"
+#include "../base/acgException.h"
+#include "../base/acg_UniqueThreadId.h"
+#include "../base/acg_DbgOut.h"
 
 
 //注：dll延迟加载问题怎么解决
@@ -19,7 +19,7 @@ void ACG_SEH_Handle(unsigned int code, struct _EXCEPTION_POINTERS *ep)
 namespace
 {
 	DWORD g_dwTlsID = TLS_OUT_OF_INDEXES;
-	LONG  g_nUniqueThreadId = 0;           //用于标识全局唯一的线程id
+	LONG  g_nUniqueThreadId = acg::base::CurThread::g_nMainThreadId;           //用于标识全局唯一的线程id
 }
 namespace acg
 {
@@ -47,7 +47,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	{
 		//为主线程安装结构化异常的C++拦截器
 		_set_se_translator(ACG_SEH_Handle);
-#ifdef DEBUG
+
 
 		//给主线程设置用于标识全局唯一的线程id
 		LONG *gt_pNUniqueThreadId = new LONG;
@@ -61,9 +61,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 		else
 		{
 			ACG_ASSERT(FALSE);
+            exit(1);
 		}
 
-
+#ifdef DEBUG
 		//调试输出
 		TCHAR pModuleName[MAX_PATH] = {};
 		GetModuleFileName(hModule, pModuleName, MAX_PATH);
@@ -77,7 +78,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	{
 		//为其它线程安装结构化异常的C++拦截器
 		_set_se_translator(ACG_SEH_Handle);
-#ifdef DEBUG
+
 
 		//给新线程设置用于标识全局唯一的线程id
 		InterlockedIncrement(&g_nUniqueThreadId);     //++
@@ -85,6 +86,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 		*gt_pNUniqueThreadId = g_nUniqueThreadId;
 		TlsSetValue(g_dwTlsID, gt_pNUniqueThreadId);
 
+#ifdef DEBUG
 		//调试输出
 		TCHAR pModuleName[MAX_PATH] = {};
 		GetModuleFileName(hModule, pModuleName, MAX_PATH);
@@ -96,18 +98,14 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  dwReason, LPVOID lpReserved)
 	break;
 	case DLL_THREAD_DETACH:
 	{
-#ifdef DEBUG
 		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
 			TlsFree(g_dwTlsID);
-#endif
 	}
 	break;
 	case DLL_PROCESS_DETACH:
 	{
-#ifdef DEBUG
 		if (TLS_OUT_OF_INDEXES != g_dwTlsID)
 			TlsFree(g_dwTlsID);
-#endif
 	}
 	break;
 	}

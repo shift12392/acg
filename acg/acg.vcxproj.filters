@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="base">
-      <UniqueIdentifier>{64a85149-ecdd-41f8-82fc-922b89d498d5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -24,63 +21,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="acg_switch.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="acg_def.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_DbgOut.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_dll.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgNoCopyable.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acg_mem.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgThread.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgCurThread.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgMutexLock.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgCondition.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgCountDownLatch.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgAtomic.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgCopyable.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgTimestamp.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgTypes.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgStringPiece.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgLogStream.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\acgLoging.h">
-      <Filter>base</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -88,30 +28,6 @@
     </ClCompile>
     <ClCompile Include="acg.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgThread.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgMutexLock.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgCondition.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgCountDownLatch.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgAtomic.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgTimestamp.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgLogStream.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\acgLoging.cpp">
-      <Filter>base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

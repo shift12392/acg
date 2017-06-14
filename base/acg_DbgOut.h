@@ -3,14 +3,16 @@
 
 #pragma once
 
-#include "../stdafx.h"
+#include "acg_base_lib.h"
 #define ACG_DBGOUT_BUF_LEN 2048
 
 
 #ifdef _DEBUG
 #define ACG_ASSERT(s) if(!(s)) {::DebugBreak();}
+#define ACG_CHECK_STR(ret) if (S_OK != (ret)) ACG_ASSERT(FALSE);          //检查安全字符串函数返回值，如果失败，则杀死进程
 #else
 #define ACG_ASSERT(s) 
+#define ACG_CHECK_STR(ret) if (S_OK != (ret)) exit(1);
 #endif
 
 namespace acg

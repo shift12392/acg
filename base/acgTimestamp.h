@@ -2,7 +2,7 @@
 
 
 #include "acgCopyable.h"
-#include "acgTypes.h"
+#include "acg_type.h"
 #include "acg_DbgOut.h"
 
 #include <algorithm>
@@ -50,8 +50,8 @@ namespace acg
 
 			LONGLONG GetTimestamp() const { return m_nMicroSecondsSinceEpoch; }
 
-			string ToString() const;
-			string ToFormattedString(BOOL bShowMicroseconds = TRUE) const;
+			CACGString ToString() const;
+            CACGString ToFormattedString(BOOL bShowMicroseconds = TRUE) const;
 
 			//得到当前时间戳
 			static CACGTimestamp now()

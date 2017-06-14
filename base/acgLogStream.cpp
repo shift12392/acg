@@ -1,6 +1,6 @@
 
 
-#include "../stdafx.h"
+#include "acg_base_lib.h"
 #include "acgLogStream.h"
 
 
@@ -11,19 +11,19 @@ namespace acg
 {
 	namespace detail
 	{
-		const char digits[] = "9876543210123456789";
-		const char* zero = digits + 9;
+		const WCHAR digits[] = L"9876543210123456789";
+		const WCHAR* zero = digits + 9;
 		//BOOST_STATIC_ASSERT(sizeof(digits) == 20);
 
-		const char digitsHex[] = "0123456789ABCDEF";
+		const WCHAR digitsHex[] = L"0123456789ABCDEF";
 		//BOOST_STATIC_ASSERT(sizeof digitsHex == 17);
 
 		// Efficient Integer to String Conversions, by Matthew Wilson.
 		template<typename T>
-		size_t convert(char buf[], T value)
+		size_t convert(WCHAR buf[], T value)
 		{
 			T i = value;
-			char* p = buf;
+            WCHAR* p = buf;
 
 			do
 			{
@@ -34,18 +34,18 @@ namespace acg
 
 			if (value < 0)
 			{
-				*p++ = '-';
+				*p++ = L'-';
 			}
-			*p = '\0';
+			*p = L'\0';
 			std::reverse(buf, p);
 
 			return p - buf;
 		}
 
-		size_t convertHex(char buf[], uintptr_t value)
+		size_t convertHex(WCHAR buf[], uintptr_t value)
 		{
 			uintptr_t i = value;
-			char* p = buf;
+            WCHAR* p = buf;
 
 			do
 			{
@@ -54,7 +54,7 @@ namespace acg
 				*p++ = digitsHex[lsd];
 			} while (i != 0);
 
-			*p = '\0';
+			*p = L'\0';
 			std::reverse(buf, p);
 
 			return p - buf;
@@ -62,34 +62,38 @@ namespace acg
 
 
 
+
+        //注：以下两种声明，只声明了模板的这两种类型
+        template class FixedBuffer<kLargeBuffer>;
+        template class FixedBuffer<kSmallBuffer>;
+
+        //class FixedBuffer  这些在源文件中的实现只对应上面两种类型
+        //当SIZE为其他值时，编译器会提示找不到这些实现。
+        template <int SIZE>
+        const TCHAR* FixedBuffer<SIZE>::debugString()
+        {
+            *m_pszCul = L'\0';
+            return m_szData;
+        }
+
+        template<int SIZE>
+        void FixedBuffer<SIZE>::cookieStart()
+        {
+        }
+
+        template<int SIZE>
+        void FixedBuffer<SIZE>::cookieEnd()
+        {
+        }
+
+
+
+
 	}
 
 	namespace base
 	{
-		//注：以下两种声明，只声明了模板的这两种类型
-		template class FixedBuffer<kLargeBuffer>;
-		template class FixedBuffer<kSmallBuffer>;
-
-		//class FixedBuffer  这些在源文件中的实现只对应上面两种类型
-		//当SIZE为其他值时，编译器会提示找不到这些实现。
-		template <int SIZE>
-		const char* FixedBuffer<SIZE>::debugString()
-		{
-			*cur_ = '\0';
-			return data_;
-		}
-
-		template<int SIZE>
-		void FixedBuffer<SIZE>::cookieStart()
-		{
-		}
-
-		template<int SIZE>
-		void FixedBuffer<SIZE>::cookieEnd()
-		{
-		}
-
-
+		
 		//class LogStream
 		void LogStream::staticCheck()
 		{
@@ -163,9 +167,9 @@ namespace acg
 			uintptr_t v = reinterpret_cast<uintptr_t>(p);
 			if (buffer_.avail() >= kMaxNumericSize)
 			{
-				char* buf = buffer_.current();
-				buf[0] = '0';
-				buf[1] = 'x';
+				WCHAR* buf = buffer_.current();
+				buf[0] = L'0';
+				buf[1] = L'x';
 				size_t len = detail::convertHex(buf + 2, v);
 				buffer_.add(len + 2);
 			}
@@ -178,7 +182,7 @@ namespace acg
 		{
 			if (buffer_.avail() >= kMaxNumericSize)
 			{
-				int len = sprintf_s(buffer_.current(), kMaxNumericSize, "%.12g", v);
+				int len = swprintf_s(buffer_.current(), kMaxNumericSize, L"%.12g", v);
 				if (-1 == len)
 					exit(0);
 				buffer_.add(len);
@@ -188,28 +192,28 @@ namespace acg
 
 
 		template <typename T>
-		Fmt::Fmt(const char *str, T v)
+		Fmt::Fmt(const WCHAR *str, T v)
 		{
 			ACG_ASSERT(std::is_arithmetic<T>::value == true);
-			length_ = sprintf_s(buf_, sizeof(buf_), str, v);
-			ACG_ASSERT(static_cast<size_t>(length_) < sizeof(buf_));
+			length_ = swprintf_s(buf_, ACG_COUNTOF(buf_), str, v);
+			ACG_ASSERT(static_cast<size_t>(length_) < ACG_COUNTOF(buf_));
 			if (-1 == length_)
 				exit(0);
 		}
 
-		template Fmt::Fmt(const char* fmt, char);
+		template Fmt::Fmt(const WCHAR* fmt, char);
 
-		template Fmt::Fmt(const char* fmt, short);
-		template Fmt::Fmt(const char* fmt, unsigned short);
-		template Fmt::Fmt(const char* fmt, int);
-		template Fmt::Fmt(const char* fmt, unsigned int);
-		template Fmt::Fmt(const char* fmt, long);
-		template Fmt::Fmt(const char* fmt, unsigned long);
-		template Fmt::Fmt(const char* fmt, long long);
-		template Fmt::Fmt(const char* fmt, unsigned long long);
+		template Fmt::Fmt(const WCHAR* fmt, short);
+		template Fmt::Fmt(const WCHAR* fmt, unsigned short);
+		template Fmt::Fmt(const WCHAR* fmt, int);
+		template Fmt::Fmt(const WCHAR* fmt, unsigned int);
+		template Fmt::Fmt(const WCHAR* fmt, long);
+		template Fmt::Fmt(const WCHAR* fmt, unsigned long);
+		template Fmt::Fmt(const WCHAR* fmt, long long);
+		template Fmt::Fmt(const WCHAR* fmt, unsigned long long);
 
-		template Fmt::Fmt(const char* fmt, float);
-		template Fmt::Fmt(const char* fmt, double);
+		template Fmt::Fmt(const WCHAR* fmt, float);
+		template Fmt::Fmt(const WCHAR* fmt, double);
 
 
 	}

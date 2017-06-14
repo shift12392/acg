@@ -3,6 +3,7 @@
 #pragma once
 
 #include "acg_UniqueThreadId.h"
+#include "acgCurThread.h"
 #include "acg_DbgOut.h"
 #include "acgNoCopyable.h"
 
@@ -13,38 +14,34 @@ namespace acg
 		class  CACGMutexLock :public CACGNoCopyable 
 		{
 		public:
-#ifdef DEBUG
 			CACGMutexLock() :m_nHolder(0)
 			{
 				InitializeCriticalSection(&m_cs);
 			}
-#else
-			CACGMutexLock()
-			{
-				InitializeCriticalSection(&m_cs);
-			}
-#endif
 			~CACGMutexLock()
 			{
 				ACG_ASSERT(m_nHolder == 0);
 				DeleteCriticalSection(&m_cs);
 			}
 
+            BOOL IsLockedByThisThread() const
+            {
+                return m_nHolder == CurThread::GetTid();
+            }
+
+            
+
 		public:
 			void Lock()
 			{
 				ACG_ASSERT(m_nHolder != CurThread::GetCurUniqueThreadId());
 				EnterCriticalSection(&m_cs);
-#ifdef DEBUG
 				m_nHolder = CurThread::GetCurUniqueThreadId();
-#endif // DEBUG
 			}
 
 			void Unlock()
 			{
-#ifdef DEBUG
 				m_nHolder=0;
-#endif
 				LeaveCriticalSection(&m_cs);
 			}
 
@@ -56,9 +53,7 @@ namespace acg
 
 		private:
 			CRITICAL_SECTION m_cs;
-#ifdef DEBUG
 			LONG             m_nHolder;
-#endif // DEBUG
 
 		};
 

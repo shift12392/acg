@@ -1,4 +1,4 @@
-#include "../stdafx.h"
+#include "acg_base_lib.h"
 #include "acgThread.h"
 #include "acgCurThread.h"
 #include "acg_DbgOut.h"
@@ -21,9 +21,9 @@ namespace acg
 		{
 			typedef base::CACGThread::ThreadFunc ThreadFunc;
 			ThreadFunc     m_threadFunc;
-			std::string    m_strName;
+			acg::base::CACGString    m_strName;
 			std::weak_ptr<LONG>   m_pThreadTid;
-			CThreadData(const ThreadFunc& func, const std::string &name, const std::shared_ptr<LONG>& tid)
+			CThreadData(const ThreadFunc& func, acg::base::CACGString &name, const std::shared_ptr<LONG>& tid)
 				:m_threadFunc(func),
 				m_strName(name),
 				m_pThreadTid(tid)
@@ -32,24 +32,24 @@ namespace acg
 			void RunInThread()
 			{
 				LONG tid = base::CurThread::GetTid();
-				std::shared_ptr<LONG>  pTid = m_pThreadTid.lock();
-				if (pTid)
+				std::shared_ptr<LONG>  pTid = m_pThreadTid.lock();       //如果提升失败，说明创建本线程的线程类已经析构了。
+				if (pTid)           
 				{
 					*pTid = tid;
 					pTid.reset();
 				}
 
-				base::CurThread::pszThreadName = m_strName.empty() ? "acgThread" : m_strName.c_str();
+				base::CurThread::pszThreadName = m_strName.empty() ? L"acgThread" : m_strName.c_str();
 
 				try
 				{
 					m_threadFunc();
-					base::CurThread::pszThreadName = "finished";
+					base::CurThread::pszThreadName = L"finished";
 				}
 				catch (base::CACGException e)
 				{
 					ACG_ASSERT(FALSE);
-					abort();
+                    exit(1);
 				}
 			}
 
@@ -70,18 +70,18 @@ namespace acg
 
 		namespace CurThread
 		{
-			ACG_TLS LONG gt_dwThreadId=0;
-			ACG_TLS char gt_szThreadId[64] = {};
+			ACG_TLS LONG gt_nThreadId =0;
+			ACG_TLS WCHAR gt_szThreadId[64] = {};
 			ACG_TLS size_t gt_nThreadIdLength=6;
-			ACG_TLS LPCSTR pszThreadName="unknown";
+			ACG_TLS LPCWSTR pszThreadName=L"unknown";
 
 			void CacheThreadId()
 			{
-				if (0 == gt_dwThreadId)
+				if (0 == gt_nThreadId)
 				{
-					gt_dwThreadId = GetCurUniqueThreadId();
-					ACG_CHECK_STR(StringCchPrintfA(gt_szThreadId, ACG_COUNTOF(gt_szThreadId), "%5d", gt_dwThreadId));
-					ACG_CHECK_STR(StringCchLengthA(gt_szThreadId, ACG_COUNTOF(gt_szThreadId), (size_t*)(&gt_nThreadIdLength)));
+                    gt_nThreadId = GetCurUniqueThreadId();
+					ACG_CHECK_STR(StringCchPrintfW(gt_szThreadId, ACG_COUNTOF(gt_szThreadId), L"%5d", gt_nThreadId));
+					ACG_CHECK_STR(StringCchLengthW(gt_szThreadId, ACG_COUNTOF(gt_szThreadId), (size_t*)(&gt_nThreadIdLength)));
 				}
 			}
 
@@ -93,7 +93,7 @@ namespace acg
 		public:
 			CThreadNameInitializer()
 			{
-				CurThread::pszThreadName = "main";
+				CurThread::pszThreadName = L"main";
 				CurThread::GetTid();
 			}
 		};
@@ -103,7 +103,7 @@ namespace acg
 
 		CACGAtomic32 CACGThread::m_createNum;
 
-		CACGThread::CACGThread(const ThreadFunc& func, const std::string& name )
+		CACGThread::CACGThread(const ThreadFunc& func, const CACGString& name )
 			:m_bStart(FALSE),
 			m_bWait(FALSE),
 			m_hThread(NULL),
@@ -159,8 +159,8 @@ namespace acg
 			unsigned int num = m_createNum.IncrementAndGet();
 			if (m_strName.empty())
 			{
-				char szName[64] = {};
-				::StringCchPrintfA(szName, sizeof(szName), "Thread%d", num);
+				WCHAR szName[64] = {};
+				::StringCchPrintfW(szName, ACG_COUNTOF(szName), L"Thread%d", num);
 				m_strName = szName;
 			}
 		}

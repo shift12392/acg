@@ -1,6 +1,6 @@
 
 
-#include "../stdafx.h"
+
 #define ACG_EXPORT                //在这也要定义ACG_EXPORT
 #include "acgException.h"
 #include "acg_mem.h"

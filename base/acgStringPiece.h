@@ -2,8 +2,13 @@
 
 
 
-#include "acgTypes.h"
+#include "acg_type.h"
 #include <string.h>
+
+
+//注意，char和wchar_t的大小问题，使用memcpy,memset,memcmp或sizeof时特别注意。
+//注意：要使用中文字符，一定要定义UNICODE。
+
 
 namespace acg
 {
@@ -12,23 +17,23 @@ namespace acg
 		class CACGStringArg
 		{
 		public:
-			CACGStringArg(const char* str)
+			CACGStringArg(const WCHAR* str)
 				:m_str(str)
 			{ }
 
-			CACGStringArg(const string& str)
+			CACGStringArg(const CACGString& str)
 				:m_str(str.c_str())
 			{ }
-			const char *c_str() { return m_str; }
+			const WCHAR *c_str() { return m_str; }
 		private:
-			const char* m_str=NULL;
+			const WCHAR* m_str=NULL;
 		};
 
 
 		class CACGStringPiece
 		{
 		private:
-			const char *m_pStr = NULL;
+			const WCHAR *m_pStr = NULL;
 			int         m_nLength = 0;
 
 
@@ -36,39 +41,37 @@ namespace acg
 			CACGStringPiece()
 				: m_pStr(NULL), m_nLength(0) { }
 
-			CACGStringPiece(const char* str)
-				: m_pStr(str), m_nLength(static_cast<int>(strlen(m_pStr))) { }
+            CACGStringPiece(const WCHAR* str)
+                : m_pStr(str), m_nLength(static_cast<int>(wcslen(m_pStr))){ }
 
-			CACGStringPiece(const unsigned char *str)
-				:m_pStr(reinterpret_cast<const char *>(str))
-				,m_nLength(static_cast<int>(strlen(m_pStr))){ }
-
-			CACGStringPiece(const string& str)
+			CACGStringPiece(const CACGString& str)
 				: m_pStr(str.data()), m_nLength(static_cast<int>(str.size())) { }
 
-			CACGStringPiece(const char* offset, int len)
+			CACGStringPiece(const WCHAR* offset, int len)
 				: m_pStr(offset), m_nLength(len) { }
 
 
 
-			const char * data() const { return m_pStr; }
-			int size() const { return m_nLength; }
-			bool empty() { return m_nLength == 0; }
-			const char * begin() { return m_pStr; }
-			const char * end() { return m_pStr + m_nLength; }
+			const WCHAR * data() const { return m_pStr; }
+			int           size() const { return m_nLength; }
+			bool          empty() const { return m_nLength == 0; }
+			const WCHAR * begin() const { return m_pStr; }
+			const WCHAR * end() const { return m_pStr + m_nLength; }
 
 			void clear() { m_pStr = NULL; m_nLength = 0; }
-			void set(const char* buffer, int len) { m_pStr = buffer; m_nLength = len; }
-			void set(const char* str) {
+			void set(const WCHAR* buffer, int len) { m_pStr = buffer; m_nLength = len; }
+			void set(const WCHAR* str) {
 				m_pStr = str;
-				m_nLength = static_cast<int>(strlen(str));
+				m_nLength = static_cast<int>(wcslen(str));
 			}
 			void set(const void* buffer, int len) {
-				m_pStr = reinterpret_cast<const char*>(buffer);
+				m_pStr = reinterpret_cast<const WCHAR*>(buffer);
 				m_nLength = len;
 			}
 
-			char operator[](int i) const { return m_pStr[i]; }
+            //如果没有定义UNICODE，m_pStr保存的有中文，则这样返回不了中文字符。
+            //比如：m_pStr中保存的是"abc中国"，则m_pStr[3]!='中'。要特别注意这一点。
+            WCHAR operator[](int i) const { return m_pStr[i]; }
 
 			//去掉前面字符串
 			void remove_prefix(int n) {
@@ -84,7 +87,7 @@ namespace acg
 			bool operator==(const CACGStringPiece &x) const
 			{
 				return ((m_nLength == x.m_nLength) &&
-				(memcmp(m_pStr, x.m_pStr, m_nLength) == 0));
+				(memcmp(m_pStr, x.m_pStr, sizeof(WCHAR)*m_nLength) == 0));
 			}
 			bool operator!=(const CACGStringPiece& x) const
 			{
@@ -93,7 +96,7 @@ namespace acg
 
 #define STRINGPIECE_BINARY_PREDICATE(cmp,auxcmp)                                                   \
 		  bool operator cmp (const CACGStringPiece& x) const {                                     \
-			int r = memcmp(m_pStr, x.m_pStr, m_nLength < x.m_nLength ? m_nLength : x.m_nLength);   \
+			int r = memcmp(m_pStr, x.m_pStr, m_nLength < x.m_nLength ? sizeof(WCHAR)*m_nLength : sizeof(WCHAR)*(x.m_nLength));   \
 			return ((r auxcmp 0) || ((r == 0) && (m_nLength cmp x.m_nLength)));                    \
 		  }
 		STRINGPIECE_BINARY_PREDICATE(<, <);
@@ -105,7 +108,7 @@ namespace acg
 
 		int compare(const CACGStringPiece& x) const
 		{
-			int r = memcmp(m_pStr, x.m_pStr, m_nLength < x.m_nLength ? m_nLength : x.m_nLength);
+			int r = memcmp(m_pStr, x.m_pStr, m_nLength < x.m_nLength ? sizeof(WCHAR)*m_nLength : sizeof(WCHAR)*(x.m_nLength));
 			if (r == 0) {
 				if (m_nLength < x.m_nLength) r = -1;
 				else if (m_nLength > x.m_nLength) r = +1;
@@ -113,12 +116,12 @@ namespace acg
 			return r;
 		}
 
-		string as_string() const
+		CACGString as_string() const
 		{
-			return string(data(), size());
+			return CACGString(data(), size());
 		}
 
-		void CopyToString(string* target) const
+		void CopyToString(CACGString* target) const
 		{
 			target->assign(m_pStr, m_nLength);
 		}
@@ -126,7 +129,7 @@ namespace acg
 		// Does "this" start with "x"
 		bool starts_with(const CACGStringPiece& x) const
 		{
-			return ((m_nLength >= x.m_nLength) && (memcmp(m_pStr, x.m_pStr, x.m_nLength) == 0));
+			return ((m_nLength >= x.m_nLength) && (memcmp(m_pStr, x.m_pStr, sizeof(WCHAR)*(x.m_nLength)) == 0));
 		}
 		};
 	}
@@ -141,7 +144,7 @@ namespace acg
 
 #ifdef HAVE_TYPE_TRAITS
 // This makes vector<StringPiece> really fast for some STL implementations
-template<> struct __type_traits<muduo::StringPiece> {
+template<> struct __type_traits<acg::base::StringPiece> {
 	typedef __true_type    has_trivial_default_constructor;
 	typedef __true_type    has_trivial_copy_constructor;
 	typedef __true_type    has_trivial_assignment_operator;

@@ -9,25 +9,25 @@ namespace acg
 		{
 			ACG_INLINE BOOL IsMainThread()
 			{
-				if (0 == GetCurUniqueThreadId())
+				if (g_nMainThreadId == GetCurUniqueThreadId())
 					return TRUE;
 				else
 					return FALSE;
 			}
-			extern ACG_TLS LONG gt_dwThreadId;
-			extern ACG_TLS char  gt_szThreadId[64];
+			extern ACG_TLS LONG gt_nThreadId;
+			extern ACG_TLS WCHAR  gt_szThreadId[64];
 			extern ACG_TLS size_t gt_nThreadIdLength;
-			extern ACG_TLS LPCSTR pszThreadName;
+			extern ACG_TLS LPCWSTR pszThreadName;
 			void CacheThreadId();
 
 			ACG_INLINE LONG GetTid()
 			{
-				if (0 == gt_dwThreadId)
+				if (0 == gt_nThreadId)
 					CacheThreadId();
-				return gt_dwThreadId;
+				return gt_nThreadId;
 			}
 
-			ACG_INLINE LPSTR GetTidString()
+			ACG_INLINE LPWSTR GetTidString()
 			{
 				return gt_szThreadId;
 			}
@@ -37,7 +37,7 @@ namespace acg
 				return gt_nThreadIdLength;
 			}
 
-			ACG_INLINE LPCSTR GetName()
+			ACG_INLINE LPCWSTR GetName()
 			{
 				return pszThreadName;
 			}

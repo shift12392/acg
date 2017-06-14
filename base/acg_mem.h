@@ -1,6 +1,9 @@
 #pragma once
 
 
+
+#include "acg_base_lib.h"
+
 #define ACG_ALLOC(sz)		HeapAlloc(GetProcessHeap(),0,sz)
 #define ACG_CALLOC(sz)		HeapAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY,sz)
 #define ACG_REALLOC(p,sz)	HeapReAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY,p,sz)

@@ -19,7 +19,7 @@ namespace acg
 			{
 				if (!SleepConditionVariableCS(&m_condition, m_cs.GetCS(), INFINITE))
 				{
-					exit(0);
+					exit(1);
 				}
 			}
 
