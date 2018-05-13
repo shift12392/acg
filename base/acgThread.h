@@ -23,7 +23,7 @@ namespace acg
 			~CACGThread();
 
             //开启线程
-			void Start();
+			BOOL Start(LPSECURITY_ATTRIBUTES lpSecurityAttrs =NULL);
             //等待线程结束
 			void Wait();
 			

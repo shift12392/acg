@@ -4,6 +4,7 @@
 #include "acgLoging.h"
 #include "acgException.h"
 #include "acgCurThread.h"
+#include "acg_DbgOut.h"
 
 
 #ifdef DEBUG
@@ -84,18 +85,35 @@ namespace acg
 			return s;
 		}
 
+
+
+
 		void defaultOutput(const WCHAR* msg, int len)
 		{
 			//ACG_ASSERT(FALSE);
             std::wcout << msg;
+
+            if (Logger::em_DEBUG == g_logLevel)
+                ACG_DBGOUTW(msg);
+
 		}
 		void defaultFlush()
 		{
 			ACG_ASSERT(FALSE);       
 		}
+
 		Logger::OutputFunc g_output = defaultOutput;
 		Logger::FlushFunc g_flush = defaultFlush;
 
+
+        void Logger::setOutput(OutputFunc funOutput)
+        {
+            g_output = funOutput;
+        }
+        void Logger::setFlush(FlushFunc funFlush)
+        {
+            g_flush = funFlush;
+        }
 
 		Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line)
 			: time_(CACGTimestamp::now()),

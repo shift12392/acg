@@ -122,16 +122,17 @@ namespace acg
 		}
 
 
-		void CACGThread::Start()
+		BOOL CACGThread::Start(LPSECURITY_ATTRIBUTES lpSecurityAttrs)
 		{
 			ACG_ASSERT(!m_bStart);
 			m_bStart = TRUE;
 
+            BOOL bRet = FALSE;
 			detail::CThreadData *pData = new detail::CThreadData(m_threadFunc, m_strName, m_pThreadTid);
 			
 			try
 			{
-				m_hThread = (HANDLE)_beginthreadex(NULL, 0, detail::StartThread, (void*)pData, 0, NULL);
+				m_hThread = (HANDLE)_beginthreadex(lpSecurityAttrs, 0, detail::StartThread, (void*)pData, 0, NULL);
 
 				//创建线程失败
 				if (NULL == reinterpret_cast<uintptr_t>(m_hThread)
@@ -139,13 +140,18 @@ namespace acg
 				{
 					throw CACGException(GetLastError());
 				}
+
+                bRet = TRUE;
 			}
 			catch (CACGException e)
 			{
 				ACG_ASSERT(FALSE);
 				ACG_DBGOUT_EXPW(Start, e);
-				abort();                    //线程创建失败
+                bRet = FALSE;
 			}
+
+
+            return bRet;
 		}
 
 

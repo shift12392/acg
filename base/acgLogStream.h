@@ -85,7 +85,7 @@ namespace acg
 				buffer_.append(v ? L"1" : L"0", 1);
 				return *this;
 			}
-
+            
 			self& operator<<(short);
 			self& operator<<(unsigned short);
 			self& operator<<(int);

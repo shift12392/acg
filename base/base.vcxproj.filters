@@ -78,6 +78,15 @@
     <ClInclude Include="acgLogFile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="acgIOCP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="acg_win.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acg_base_lib.cpp">
@@ -105,6 +114,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="acgTimestamp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="acgIOCP.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

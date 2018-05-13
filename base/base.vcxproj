@@ -133,11 +133,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\targetver.h" />
     <ClInclude Include="acgAtomic.h" />
     <ClInclude Include="acgCondition.h" />
     <ClInclude Include="acgCopyable.h" />
     <ClInclude Include="acgCountDownLatch.h" />
     <ClInclude Include="acgCurThread.h" />
+    <ClInclude Include="acgIOCP.h" />
     <ClInclude Include="acgLogFile.h" />
     <ClInclude Include="acgLoging.h" />
     <ClInclude Include="acgLogStream.h" />
@@ -153,11 +155,13 @@
     <ClInclude Include="acg_mem.h" />
     <ClInclude Include="acg_switch.h" />
     <ClInclude Include="acg_type.h" />
+    <ClInclude Include="acg_win.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acgAtomic.cpp" />
     <ClCompile Include="acgCondition.cpp" />
     <ClCompile Include="acgCountDownLatch.cpp" />
+    <ClCompile Include="acgIOCP.cpp" />
     <ClCompile Include="acgLoging.cpp" />
     <ClCompile Include="acgLogStream.cpp" />
     <ClCompile Include="acgMutexLock.cpp" />

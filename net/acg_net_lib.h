@@ -7,10 +7,7 @@
 
 #include "../targetver.h"
 
-#include "acg_switch.h"
-
-
-// TODO:  在此处引用程序需要的其他头文件
+#include "../base/acg_switch.h"
 
 //如果不是按Windows 2008环境编译，立刻报错
 #if _WIN32_WINNT < 0x0600 || WINVER < 0x0600
@@ -18,7 +15,9 @@
 #endif
 
 
-#include "acg_win.h"
-
 // TODO:  在此处引用程序需要的其他头文件
-#include "acg_def.h"
+
+#include "../base/acg_win.h"
+
+#include "acg_sock.h"
+
