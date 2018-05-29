@@ -1,7 +1,7 @@
 
 
 
-//从此类派生的类都不能复制
+//浠庢绫绘淳鐢熺殑绫婚兘涓嶈兘澶嶅埗
 
 
 #pragma once
@@ -13,11 +13,11 @@ namespace acg
 		class CACGNoCopyable
 		{
 		protected:
-			CACGNoCopyable() {}
-			~CACGNoCopyable() {}
+			CACGNoCopyable() = default;
+			~CACGNoCopyable() = default;
 		private:
-			CACGNoCopyable(const CACGNoCopyable &);
-			CACGNoCopyable & operator=(const CACGNoCopyable &);
+			CACGNoCopyable(const CACGNoCopyable &) = delete;
+			CACGNoCopyable & operator=(const CACGNoCopyable &) = delete;
 		};
 	}
 }
