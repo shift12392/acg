@@ -25,7 +25,8 @@ namespace acg
 
 		acg::base::CACGTimestamp ACGPoll::Poll(int timeoutMs, ChannelList * activeChannels)
 		{
-			int numEvents = WSAPoll(&*m_pollFds.begin(), m_pollFds.size(), timeoutMs);
+			int numEvents = WSAPoll(&*m_pollFds.begin(), static_cast<ULONG>(m_pollFds.size()), timeoutMs);
+			acg::base::CACGTimestamp now(acg::base::CACGTimestamp::now());
 			DWORD error = GetLastError();
 			if (numEvents > 0)
 			{
@@ -40,6 +41,7 @@ namespace acg
 				LOG_SYSFATAL << L"WSAPoll³ö´í£¬´íÎó´úÂë£º" << error;
 			}
 
+			return now;
 		}
 		void ACGPoll::UpdateChannel(ACGChannel * channel)
 		{

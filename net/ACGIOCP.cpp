@@ -24,6 +24,7 @@ namespace acg
 		}
 		acg::base::CACGTimestamp ACGIOCP::Poll(DWORD timeoutMs, ChannelList * activeChannels)
 		{
+			/*
 			try
 			{
 				OVERLAPPED_ENTRY *pOv = new OVERLAPPED_ENTRY[10000];
@@ -68,6 +69,10 @@ namespace acg
 			{
 				LOG_FATAL << L"GetQueuedCompletionStatusEx Ê§°Ü£¬Ê§°ÜÔ­Òò£º" << e.GetReason();
 			}
+			*/
+
+			return acg::base::CACGTimestamp();
+
 		}
 		void ACGIOCP::UpdateChannel(ACGChannel * channel)
 		{
