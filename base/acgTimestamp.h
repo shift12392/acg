@@ -93,7 +93,7 @@ namespace acg
 			static const int m_nMicroSecondsPerSecond = 1000 * 1000;
 
 		private:
-			LONGLONG m_nMicroSecondsSinceEpoch;
+			LONGLONG m_nMicroSecondsSinceEpoch;                    //这是标准时间，不是本地时间
 		};
 
 

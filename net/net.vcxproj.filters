@@ -39,6 +39,21 @@
     <ClInclude Include="acgInetAddress.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="acgEventLoop.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGChannel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGIO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGIOCP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ACGPoll.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="acg_net_lib.cpp">
@@ -48,6 +63,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="acgInetAddress.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="acgEventLoop.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ACGChannel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ACGIO.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ACGIOCP.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ACGPoll.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -42,7 +42,7 @@ namespace acg
 #ifdef DEBUG
 		Logger::LogLevel g_logLevel = Logger::em_DEBUG;
 #else
-		LLogger::LogLevel g_logLevel = Logger::em_INFO;
+		Logger::LogLevel g_logLevel = Logger::em_INFO;
 #endif // DEBUG
 
 		//LOGµÈ¼¶×Ö·û´®
@@ -102,17 +102,17 @@ namespace acg
 			ACG_ASSERT(FALSE);       
 		}
 
-		Logger::OutputFunc g_output = defaultOutput;
-		Logger::FlushFunc g_flush = defaultFlush;
+		Logger::OutputFunc g_outputFunc = defaultOutput;
+		Logger::FlushFunc g_flushFunc = defaultFlush;
 
 
         void Logger::setOutput(OutputFunc funOutput)
         {
-            g_output = funOutput;
+			g_outputFunc = funOutput;
         }
         void Logger::setFlush(FlushFunc funFlush)
         {
-            g_flush = funFlush;
+			g_flushFunc = funFlush;
         }
 
 		Logger::Impl::Impl(LogLevel level, int savedErrno, const SourceFile& file, int line)
@@ -191,12 +191,17 @@ namespace acg
         {
             impl_.finish();
             const LogStream::Buffer& buf(stream().buffer());
-            g_output(buf.data(), buf.length());
+			g_outputFunc(buf.data(), buf.length());
             if (impl_.level_ == em_FATAL)
             {
-                g_flush();
+				g_flushFunc();
                 abort();
             }
+			else if (impl_.level_ == em_ERROR)
+			{
+				g_flushFunc();
+				ACG_ASSERT(FALSE);
+			}
         }
 
 

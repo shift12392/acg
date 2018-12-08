@@ -15,7 +15,7 @@ void ACG_SEH_Handle(unsigned int code, struct _EXCEPTION_POINTERS *ep)
 	throw acg::base::CACGException(code, ep);
 }
 
-#ifdef DEBUG
+
 namespace
 {
 	DWORD g_dwTlsID = TLS_OUT_OF_INDEXES;
@@ -34,8 +34,6 @@ namespace acg
 		}
 	}
 }
-
-#endif // DEBUG
 
 
 

@@ -20,7 +20,7 @@ namespace acg
             CACGSockStartup(BYTE bvHight = 0x2, BYTE bvLow = 0x2)
             {
                 memset(&m_wsaData, 0, sizeof(WSADATA));
-                if (InitSock(bvHight, bvLow))
+                if (!InitSock(bvHight, bvLow))
                 {
                     exit(1);
                 }
@@ -39,12 +39,14 @@ namespace acg
                     return FALSE;
                 }
 
+				//The WSAStartup function is called to initiate use of WS2_32.dll.
                 WORD wVer = MAKEWORD(bvHigh, bvLow);
                 int err = ::WSAStartup(wVer, &m_wsaData);
                 if (0 != err)
                 {
                     //ACG_DBGOUTW(_T("无法初始化Socket2系统环境，错误码为：%d！\n"), WSAGetLastError());
 
+					//直接杀死进程
                     LOG_FATAL << L"无法初始化Socket2系统环境，错误码为：%d！" << WSAGetLastError();
 
                     return FALSE;

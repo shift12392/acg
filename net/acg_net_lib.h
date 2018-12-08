@@ -7,6 +7,7 @@
 
 #include "../targetver.h"
 
+//这个头文件要比acg_win.h头文件早包含
 #include "../base/acg_switch.h"
 
 //如果不是按Windows 2008环境编译，立刻报错

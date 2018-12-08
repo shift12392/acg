@@ -6,6 +6,7 @@
 #include "../base/acgTimestamp.h"
 #include "../base/acgLoging.h"
 #include "../net/acgSockStartup.h"
+#include "../net/acgInetAddress.h"
 
 
 using namespace acg;
@@ -18,6 +19,7 @@ int main()
 	{
         CACGTimestamp time(CACGTimestamp::now());
         CACGString str= time.ToString();
+		str = time.ToFormattedString();
 
         //Logger::SetLogLevel(Logger::em_WARN);
 
@@ -25,6 +27,8 @@ int main()
 
         CACGSockStartup init;
 
+		ACGInetAddress addr(L"192.168.1.20",5000);
+		LOG_DEBUG << addr.ToIpPort();
 
 
 	}catch(acg::base::CACGException e)

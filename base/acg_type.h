@@ -54,19 +54,27 @@ namespace acg
         // for upcasting in the type hierarchy (i.e. casting a pointer to Foo
         // to a pointer to SuperclassOfFoo or casting a pointer to Foo to
         // a const pointer to Foo).
-        // When you use implicit_cast, the compiler checks that the cast is safe.
+		//使用implicit_cast作为static_cast或const_cast的安全版本，用于类型层次结构中的向上转换（即将指向Foo的指针转换为指向SuperclassOfFoo的指针或将指向Foo的指针转换为指向Foo的const指针）。
+
+        // When you use implicit_cast, the compiler checks that the cast is safe.   使用implicit_cast时，编译器会检查强制转换是否安全。
+
         // Such explicit implicit_casts are necessary in surprisingly many
         // situations where C++ demands an exact type match instead of an
         // argument type convertable to a target type.
+		//在许多情况下，C ++需要一个精确匹配的类型而不是an argument type（可传唤为目标类型），这种显式的implicit_casts是必要的。
+
         //
         // The From type can be inferred, so the preferred syntax for using
-        // implicit_cast is the same as for static_cast etc.:
+        // implicit_cast is the same as for static_cast etc.:          From类型可以被推断，因此使用implicit_cast的首选语法与static_cast等相同：
         //
         //   implicit_cast<ToType>(expr)
         //
         // implicit_cast would have been part of the C++ standard library,
         // but the proposal was submitted too late.  It will probably make
         // its way into the language in the future.
+
+		//implicit_cast将成为C ++标准库的一部分，但提交提交太晚了。 它可能会在未来进入语言。
+
         template<typename To, typename From>
         inline To implicit_cast(From const &f)
         {
@@ -98,6 +106,9 @@ namespace acg
             // for compile-time type checking, and has no overhead in an
             // optimized build at run-time, as it will be optimized away
             // completely.
+
+			//确保To是From *的子类型。 此测试仅适用于编译时类型检查，build后被优化。
+
             if (false)
             {
                 implicit_cast<From*, To>(0);

@@ -90,6 +90,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>acg_net_lib.h</PrecompiledHeaderFile>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -121,6 +122,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <PrecompiledHeaderFile>acg_net_lib.h</PrecompiledHeaderFile>
+      <ExceptionHandling>Async</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -132,7 +134,12 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ACGChannel.h" />
+    <ClInclude Include="acgEventLoop.h" />
     <ClInclude Include="acgInetAddress.h" />
+    <ClInclude Include="ACGIO.h" />
+    <ClInclude Include="ACGIOCP.h" />
+    <ClInclude Include="ACGPoll.h" />
     <ClInclude Include="acgSocket.h" />
     <ClInclude Include="acgSockStartup.h" />
     <ClInclude Include="acgWinsockExAPI.h" />
@@ -141,7 +148,12 @@
     <ClInclude Include="acg_socketOps.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ACGChannel.cpp" />
+    <ClCompile Include="acgEventLoop.cpp" />
     <ClCompile Include="acgInetAddress.cpp" />
+    <ClCompile Include="ACGIO.cpp" />
+    <ClCompile Include="ACGIOCP.cpp" />
+    <ClCompile Include="ACGPoll.cpp" />
     <ClCompile Include="acgSocket.cpp" />
     <ClCompile Include="acg_net_lib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
