@@ -43,7 +43,7 @@ namespace acg
 
 
 //普通的调试输出支持
-#if defined(DEBUG) | defined(_DEBUG)
+#if defined(DEBUG) || defined(_DEBUG)
 #define ACG_DBGOUTW(...)     acg::base::ACGDbgOutW(__VA_ARGS__)
 #define ACG_DBGOUT_LINEW()	 ACG_DBGOUTW(L"%s(%d):",__WFILE__, __LINE__)
 #else
