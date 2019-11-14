@@ -226,7 +226,15 @@ namespace acg
 				{
 					OnResize();
 				}
+				else if (wParam == SIZE_MAXIMIZED)
+				{
+					OnResize();
+				}
 			}
+			break;
+		//当用户释放调整大小的bars时，发送。
+		case WM_EXITSIZEMOVE:
+			OnResize();
 			break;
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
