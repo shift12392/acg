@@ -21,7 +21,16 @@ public:
 
 namespace acg
 {
-
+	namespace Render
+	{
+		Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(
+			Microsoft::WRL::ComPtr<ID3D12Device5> &Device,
+			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> &CommandList4,
+			const void *InitData,
+			UINT byteSize,
+			Microsoft::WRL::ComPtr<ID3D12Resource> &UploadBuffer
+		);
+	}
 }
 
 #ifndef ThrowIfFailed

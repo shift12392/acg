@@ -147,6 +147,7 @@ namespace acg
 		ClearValue.DepthStencil.Depth = 1.0;
 		ClearValue.DepthStencil.Stencil = 0;
 
+		// 这个函数同时也会一个堆，GPU资源都存于堆中，其本质是具有特定属性的GPU显存块。
 		ThrowIfFailed(m_Device5->CreateCommittedResource(&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),       //默认堆，在这个堆里面的资源，唯独GPU可以访问。
 			D3D12_HEAP_FLAG_NONE,
 			&DepthStencilDesc,
