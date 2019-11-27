@@ -21,7 +21,7 @@ namespace acg
 		Microsoft::WRL::ComPtr<ID3D12Fence1>    m_Fence1;
 
 		Microsoft::WRL::ComPtr<ID3D12CommandQueue>     m_CommandQueue;
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4>      m_CommandList4;
+		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList>      m_CommandList;
 		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> m_CommandAllocator;
 		Microsoft::WRL::ComPtr<IDXGISwapChain> m_DXGISwapChain;
 

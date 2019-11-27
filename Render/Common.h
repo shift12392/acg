@@ -25,7 +25,7 @@ namespace acg
 	{
 		Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(
 			Microsoft::WRL::ComPtr<ID3D12Device5> &Device,
-			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> &CommandList4,
+			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> &CommandList,
 			const void *InitData,
 			UINT byteSize,
 			Microsoft::WRL::ComPtr<ID3D12Resource> &UploadBuffer

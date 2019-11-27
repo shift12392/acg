@@ -101,7 +101,7 @@ namespace acg
 		//在更改任何资源之前刷新命令队列
 		FlushCommandQueue();
 
-		ThrowIfFailed(m_CommandList4->Reset(m_CommandAllocator.Get(), nullptr));
+		ThrowIfFailed(m_CommandList->Reset(m_CommandAllocator.Get(), nullptr));
 
 		//释放上一次创建的资源
 		for (int i = 0; i < SwapChainBufferCount; i++)
@@ -115,11 +115,12 @@ namespace acg
 
 		m_CurrentBackBuffer = 0;
 
-		//创建渲染目标视图，并与渲染目标视图描述符绑定。
+		//创建渲染目标Buffer资源，创建渲染目标视图，并把渲染目标Buffer资源与渲染目标视图绑定。
 		CD3DX12_CPU_DESCRIPTOR_HANDLE RTVDescriptor(m_RTVHeap->GetCPUDescriptorHandleForHeapStart());
 		for (int i = 0; i < SwapChainBufferCount; i++)
 		{
 			ThrowIfFailed(m_DXGISwapChain->GetBuffer(i, IID_PPV_ARGS(m_SwapChainBuffer[i].GetAddressOf())));
+
 			m_Device5->CreateRenderTargetView(
 				m_SwapChainBuffer[i].Get(),
 				nullptr,                   //如果Resource创建时已经指定了格式，如果这里设置空，则使用Resource的格式。
@@ -128,6 +129,7 @@ namespace acg
 		}
 
 		//创建深度/模板Buffer和视图
+
 		// 创建深度/模板Buffer
 		D3D12_RESOURCE_DESC DepthStencilDesc{};
 		DepthStencilDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;           //资源的维度
@@ -166,11 +168,11 @@ namespace acg
 		m_Device5->CreateDepthStencilView(m_DepthStencilBuffer.Get(), nullptr, DepthStencilView());
 
 		// 更改深度/模板资源的状态
-		m_CommandList4->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
+		m_CommandList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(m_DepthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE));
 
 		//执行命令队列
-		ThrowIfFailed(m_CommandList4->Close());       //先“关闭”
-		ID3D12CommandList* CommandList[] = { m_CommandList4.Get() };          
+		ThrowIfFailed(m_CommandList->Close());       //先“关闭”
+		ID3D12CommandList* CommandList[] = { m_CommandList.Get() };
 		m_CommandQueue->ExecuteCommandLists(1, CommandList);
 
 		//等待执行完成
@@ -368,12 +370,13 @@ namespace acg
 			D3D12_COMMAND_LIST_TYPE_DIRECT,
 			m_CommandAllocator.Get(),
 			nullptr,
-			IID_PPV_ARGS(m_CommandList4.GetAddressOf())
+			IID_PPV_ARGS(m_CommandList.GetAddressOf())
 		));
 
-		m_CommandList4->Close();
+		m_CommandList->Close();
 
 	}
+
 	void App::CreateSwapChain()
 	{
 
