@@ -5,10 +5,18 @@
 #include "Render.h"
 #include "App.h"
 
+using namespace std::placeholders;
+
+
+void OnMouseDown(WPARAM btnState, int x, int y) 
+{
+
+}
+
 
 // 此代码模块中包含的函数的前向声明:
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
+//ATOM                MyRegisterClass(HINSTANCE hInstance);
+//BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
@@ -24,6 +32,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	acg::App app(hInstance);
 	acg::g_App = &app;
+	app.m_MouseMoveEvent = std::bind(OnMouseDown,_1,_2,_3);
 
 	if (!app.Initialize(nCmdShow))
 	{

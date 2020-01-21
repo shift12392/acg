@@ -10,6 +10,7 @@
 #include <dxgi1_4.h>
 #include "d3dx12.h"
 #include <DirectXMath.h>
+#include <d3dcompiler.h>
 
 
 class Common
@@ -23,13 +24,27 @@ namespace acg
 {
 	namespace Render
 	{
+
+		//°ÑbyteSize¶ÔÆëµ½255
+		inline UINT CalcConstantBufferByteSize(UINT byteSize)
+		{
+			return byteSize & ~255;
+		}
+
 		Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(
-			Microsoft::WRL::ComPtr<ID3D12Device5> &Device,
-			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> &CommandList,
+			Microsoft::WRL::ComPtr<ID3D12Device5> Device,
+			Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList4> CommandList4,
 			const void *InitData,
 			UINT byteSize,
 			Microsoft::WRL::ComPtr<ID3D12Resource> &UploadBuffer
 		);
+
+		Microsoft::WRL::ComPtr<ID3DBlob> ComplieShader(
+			LPCWSTR filename,
+			const D3D_SHADER_MACRO* defines,
+			LPCSTR entrypoint,
+			LPCSTR target);
+
 	}
 }
 
@@ -49,4 +64,7 @@ namespace acg
 #define ReleaseCom(x) {if(x) x->Release();x=0;}
 #endif // !ReleaseCom
 
+
+
+#define SSSSSSSS "ttttttttttt";
 
